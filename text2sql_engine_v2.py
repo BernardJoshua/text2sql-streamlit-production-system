@@ -135,8 +135,6 @@ def normalize_text(x):
     return x
 
 
-# Columns that must never be exposed to the model prompt, value linker, or final SQL.
-# This is intentionally scoped to retail_complains.events so that other databases are not affected.
 HIDDEN_COLUMNS_BY_DB_TABLE = {
     ("retail_complains", "events"): {
         "consumer disputed?",
@@ -740,7 +738,6 @@ def build_new_intent_mapping(question, ner_entities, value_links):
     return "\n".join(lines)
 
 
-# This prompt shape intentionally matches the notebook:
 # Question -> Relevant Table Schemas -> Intent Mapping -> SQL generation rules.
 SQL_GENERATION_RULES = """SQL generation rules:
 1. Generate only SQL.
@@ -1028,7 +1025,6 @@ def validate_schema_compatibility(tree, prompt_text):
     alias_map = extract_alias_map(tree)
 
     # SELECT aliases are valid references in ORDER BY / HAVING.
-    # Example: SELECT SUM(T2.Quantity) AS total_items ... ORDER BY total_items DESC
     select_aliases = set()
     select_aliases_compact = set()
     for alias_expr in tree.find_all(exp.Alias):
@@ -1044,7 +1040,6 @@ def validate_schema_compatibility(tree, prompt_text):
     table_score = 0.0
     column_score = 0.0
 
-    # Build a canonical table map from actual SQL tables to selected-schema tables.
     # Keys include both normal and compact table names so quoted/spaced names match.
     prompt_table_lookup = {}
     for tbl_norm in allowed_tables:
@@ -1086,7 +1081,7 @@ def validate_schema_compatibility(tree, prompt_text):
     for cols_for_tbl in referenced_columns_compact_by_table.values():
         referenced_all_columns_compact.update(cols_for_tbl)
 
-    # Resolve alias map to prompt table norms, with compact fallback.
+   
     resolved_alias_map = {}
     for alias_or_table, table_norm in alias_map.items():
         table_compact = normalize_identifier_compact(table_norm)
