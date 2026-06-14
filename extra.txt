@@ -1,0 +1,1 @@
+python3 run_text2sql_regression_tests.py --out-dir .

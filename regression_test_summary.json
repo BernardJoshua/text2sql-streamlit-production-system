@@ -1,0 +1,109 @@
+{
+  "total_cases": 43,
+  "valid_golden_cases": 42,
+  "schema_valid_rate": 0.6904761904761905,
+  "execution_success_rate": 0.6904761904761905,
+  "result_accuracy": 0.40476190476190477,
+  "by_type": {
+    "join": {
+      "cases": 17,
+      "schema_valid_rate": 0.23529411764705882,
+      "execution_success_rate": 0.23529411764705882,
+      "result_accuracy": 0.0
+    },
+    "single": {
+      "cases": 25,
+      "schema_valid_rate": 1.0,
+      "execution_success_rate": 1.0,
+      "result_accuracy": 0.68
+    }
+  },
+  "by_operation": {
+    "avg": {
+      "cases": 8,
+      "schema_valid_rate": 0.875,
+      "execution_success_rate": 0.875,
+      "result_accuracy": 0.75
+    },
+    "count": {
+      "cases": 8,
+      "schema_valid_rate": 0.875,
+      "execution_success_rate": 0.875,
+      "result_accuracy": 0.5
+    },
+    "lookup": {
+      "cases": 5,
+      "schema_valid_rate": 0.4,
+      "execution_success_rate": 0.4,
+      "result_accuracy": 0.0
+    },
+    "max": {
+      "cases": 8,
+      "schema_valid_rate": 0.75,
+      "execution_success_rate": 0.75,
+      "result_accuracy": 0.375
+    },
+    "sum": {
+      "cases": 13,
+      "schema_valid_rate": 0.5384615384615384,
+      "execution_success_rate": 0.5384615384615384,
+      "result_accuracy": 0.3076923076923077
+    }
+  },
+  "by_db": {
+    "car_retails": {
+      "cases": 6,
+      "schema_valid_rate": 0.8333333333333334,
+      "execution_success_rate": 0.8333333333333334,
+      "result_accuracy": 0.5
+    },
+    "cars": {
+      "cases": 6,
+      "schema_valid_rate": 0.6666666666666666,
+      "execution_success_rate": 0.6666666666666666,
+      "result_accuracy": 0.3333333333333333
+    },
+    "regional_sales": {
+      "cases": 4,
+      "schema_valid_rate": 0.75,
+      "execution_success_rate": 0.75,
+      "result_accuracy": 0.5
+    },
+    "restaurant": {
+      "cases": 4,
+      "schema_valid_rate": 0.5,
+      "execution_success_rate": 0.5,
+      "result_accuracy": 0.0
+    },
+    "retail_complains": {
+      "cases": 5,
+      "schema_valid_rate": 0.8,
+      "execution_success_rate": 0.8,
+      "result_accuracy": 0.2
+    },
+    "retail_world": {
+      "cases": 4,
+      "schema_valid_rate": 0.5,
+      "execution_success_rate": 0.5,
+      "result_accuracy": 0.25
+    },
+    "retails": {
+      "cases": 4,
+      "schema_valid_rate": 0.75,
+      "execution_success_rate": 0.75,
+      "result_accuracy": 0.75
+    },
+    "sales": {
+      "cases": 5,
+      "schema_valid_rate": 0.6,
+      "execution_success_rate": 0.6,
+      "result_accuracy": 0.6
+    },
+    "superstore": {
+      "cases": 4,
+      "schema_valid_rate": 0.75,
+      "execution_success_rate": 0.75,
+      "result_accuracy": 0.5
+    }
+  }
+}

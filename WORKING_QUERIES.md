@@ -1,0 +1,15 @@
+# Working Query Set
+
+These are the regression questions the patched system now tests. The key correction is that every query must be possible using the selected tables only. For example, the Superstore question mentioning `Aimee Bixby` requires the `people` table because `Customer Name` is not present in `west_superstore` or `product`.
+
+| DB | Selected tables | Question | Expected SQL shape |
+|---|---|---|---|
+| retail_complains | client, events | Among clients from Portland, how many complaints were about Billing disputes? | `SELECT COUNT(T2."Complaint ID") FROM client AS T1 JOIN events AS T2 ON T1.client_id = T2.Client_ID WHERE T1.city = 'Portland' AND T2.Issue = 'Billing disputes'` |
+| car_retails | products, orderdetails | Calculate the total quantity ordered for 18th Century Vintage Horse Carriage. | `SELECT SUM(T2.quantityOrdered) FROM products AS T1 JOIN orderdetails AS T2 ON T1.productCode = T2.productCode WHERE T1.productName = '18th Century Vintage Horse Carriage'` |
+| cars | data, price | How many cylinders does the cheapest car have? | `SELECT T1.cylinders FROM data AS T1 JOIN price AS T2 ON T1.ID = T2.ID ORDER BY T2.price ASC LIMIT 1` |
+| sales | Sales, Employees | Which salesperson sold the most items in total? | `SELECT T1.FirstName, T1.LastName, SUM(T2.Quantity) AS total_items FROM Employees AS T1 JOIN Sales AS T2 ON T1.EmployeeID = T2.SalesPersonID GROUP BY T1.FirstName, T1.LastName ORDER BY total_items DESC LIMIT 1` |
+| restaurant | generalinfo, geographic | What is the county and region of Plearn-Thai Cuisine restaurant? | `SELECT T2.county, T2.region FROM generalinfo AS T1 JOIN geographic AS T2 ON T1.city = T2.city WHERE T1.label = 'Plearn-Thai Cuisine'` |
+| regional_sales | Sales Orders, Products | Which product generated the highest sales amount? | `SELECT T2."Product Name", SUM(T1."Order Quantity" * T1."Unit Price") AS sales_amount FROM "Sales Orders" AS T1 JOIN Products AS T2 ON T1._ProductID = T2.ProductID GROUP BY T2."Product Name" ORDER BY sales_amount DESC LIMIT 1` |
+| retail_world | Products, Categories | What are the products that belong to the beverage category? | `SELECT T1.ProductName FROM Products AS T1 JOIN Categories AS T2 ON T1.CategoryID = T2.CategoryID WHERE T2.CategoryName = 'Beverages'` |
+| superstore | west_superstore, people, product | Please list the products ordered by Aimee Bixby in 2016. | `SELECT T3."Product Name" FROM west_superstore AS T1 JOIN people AS T2 ON T1."Customer ID" = T2."Customer ID" JOIN product AS T3 ON T1."Product ID" = T3."Product ID" WHERE T2."Customer Name" = 'Aimee Bixby' AND CAST(T1."Order Date" AS VARCHAR) LIKE '2016%'` |
+| retails | lineitem, orders, part | List the total sales amount for each product in 1996. | `SELECT T3.p_name, SUM(T1.l_extendedprice * (1 - T1.l_discount)) AS total_sales FROM lineitem AS T1 JOIN orders AS T2 ON T1.l_orderkey = T2.o_orderkey JOIN part AS T3 ON T1.l_partkey = T3.p_partkey WHERE CAST(T2.o_orderdate AS VARCHAR) LIKE '1996%' GROUP BY T3.p_name ORDER BY total_sales DESC` |
