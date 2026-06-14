@@ -1,9 +1,6 @@
 from pathlib import Path
 from huggingface_hub import HfApi, create_repo, login
 
-# Use this only if you want to re-upload value_index.jsonl.
-# For production app usage, the app already downloads:
-# BernardJoshua/spacy-ner-dataset/value_index.jsonl
 
 login()
 
