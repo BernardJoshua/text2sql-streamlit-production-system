@@ -1817,27 +1817,20 @@ def run_text_to_sql(
         num_candidates=NUM_CANDIDATES,
     )
 
-    # Add safe deterministic candidates built only from the selected schema.
-    # These do not replace CodeT5. They are prepended so they receive a better
-    # rank prior, then all candidates still pass SQLGlot, schema validation,
-    # and DuckDB EXPLAIN before selection.
-    heuristic_candidates = generate_schema_grounded_candidates(
-        question=question,
-        db_id=db_id,
-        schema=schema,
-        selected_tables=selected_tables,
-        value_links=value_links,
-    )
-
+  
+    # Use only model-generated candidates.
+    # Deterministic schema-grounded fallback candidates are intentionally disabled
+    # so the system reflects the actual CodeT5 + NER + value-linking performance.
     all_candidates = []
     seen_keys = set()
-    for cand in heuristic_candidates + candidates:
+    
+    for cand in candidates:
         key = normalize_sql(cand)
         if key and key not in seen_keys:
             all_candidates.append(clean_sql(cand))
             seen_keys.add(key)
-
-    scored_candidates = []
+    
+        scored_candidates = []
 
     for rank, sql in enumerate(all_candidates, start=1):
         cand = score_candidate(
@@ -1853,9 +1846,7 @@ def run_text_to_sql(
     # Only retain candidates that parsed successfully and have no unknown tables/columns/aliases.
     valid_candidates = [c for c in scored_candidates if c.get("valid_sqlglot") and c.get("valid_schema")]
 
-    # Hard reject any candidate that DuckDB cannot bind/plan. This is what stops
-    # undefined aliases such as T3/T4/T5, wrong join keys, and stale columns from
-    # ever becoming final SQL.
+    # Hard reject any candidate that DuckDB cannot bind/plan.
     executable_candidates = []
     for cand in valid_candidates:
         ok, reason = explain_sql(db_path, cand["sql"])
